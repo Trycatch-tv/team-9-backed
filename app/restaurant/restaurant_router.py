@@ -8,8 +8,8 @@ from fastapi import Path
 #DataBase encoders
 from app.config.db import create_a_table
 
-#Models app Waro Colombia(Internal)
-from app.models.models import RestaurantTable
+#Models app Team 9 (Internal)
+from app.models.models import NewRestaurantTable
 
 # ============================================================
 # Definitions Router:
@@ -38,8 +38,8 @@ def get_all_tables_restaurant():
         status_code=status.HTTP_200_OK,
         summary="Create table restaurant"  
         )
-def post_a_table_restaurant(restaurant_table:RestaurantTable):
-    response = create_a_table(restaurant_table.dict()) 
+def post_a_table_restaurant(new_restaurant_table:NewRestaurantTable):
+    response = create_a_table(new_restaurant_table.dict()) 
     if response:
         return response
     raise HTTPException(404,"Error")
