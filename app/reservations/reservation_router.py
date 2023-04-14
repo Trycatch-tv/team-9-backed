@@ -5,6 +5,12 @@ import uuid, json
 from fastapi import FastAPI, APIRouter, status, HTTPException
 from fastapi import Path
 
+#DataBase encoders
+from app.config.db import create_new_reserve
+
+#Models app Team 9 (Internal)
+from app.models.models import NewReserve
+
 # ============================================================
 # Definitions Router:
 
@@ -16,8 +22,21 @@ reservation_router_app = APIRouter(
 # ============================================================
 
 # ============================================================
-# Path operations, Parthner
+# Path operations, reservation user
 # ============================================================
+
+#Create a new reservation
+@reservation_router_app.post(
+        "/",
+        status_code=status.HTTP_200_OK,
+        summary="Create a new reservation"  
+        )
+def post_a_table_restaurant(new_reserve:NewReserve):
+    response = create_new_reserve(new_reserve.dict()) 
+    if response:
+        return response
+    raise HTTPException(404,"Error")
+
 
 @reservation_router_app.get(
         "/",
@@ -26,14 +45,6 @@ reservation_router_app = APIRouter(
         )
 def get_all_tables_restaurant():
     return {"get":"Get all rerservations"}
-
-@reservation_router_app.post(
-        "/",
-        status_code=status.HTTP_200_OK,
-        summary="Create a new reservation"  
-        )
-def post_a_table_restaurant():
-    return {"post":"create new reservation"}
 
 @reservation_router_app.put(
         "/",

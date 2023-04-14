@@ -8,7 +8,8 @@ from fastapi import HTTPException,UploadFile
 import bson
 
 #Models app Waro Colombia(Internal)
-from app.models.models import RestaurantTable
+from app.models.models import NewRestaurantTable
+from app.models.models import NewReserve
 
 #Dump the loaded BSON to valid JSON
 from bson import json_util
@@ -23,13 +24,21 @@ from app.config.db_class import Validator
 # Manage Restaurant table's functions. Create,fetch and delete
 # =============================================================
 
-#Create a Parthner
-def create_a_table(restaurant_table:RestaurantTable):
+#Create a new table restaurant
+def create_a_table(new_restaurant_table:NewRestaurantTable):
     category_bdd = select_db()
-    category_bdd[0].insert_one(dict(restaurant_table)) #add to garage products
-    return restaurant_table
+    _id = category_bdd[0].insert_one(dict(new_restaurant_table))
+    _id=str(_id.inserted_id)
+    return {"_id":_id}
 
 
 # =============================================================
 # Manage Reservation's functions. Create,fetch and delete
 # =============================================================
+
+#Create a new reservation
+def create_new_reserve(new_reserve:NewReserve):
+    category_bdd = select_db()
+    _id = category_bdd[1].insert_one(dict(new_reserve))
+    _id=str(_id.inserted_id)
+    return {"_id":_id}
